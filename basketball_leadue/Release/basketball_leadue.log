@@ -1,0 +1,13 @@
+﻿  Basketball_league.cpp
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\LeagueMaker.h(11): error C2143: syntax error : missing ';' before '*'
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\LeagueMaker.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\LeagueMaker.h(18): error C2143: syntax error : missing ';' before '*'
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\LeagueMaker.h(18): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\LeagueMaker.h(18): warning C4183: 'get_basketball_league': missing return type; assumed to be a member function returning 'int'
+  DataBase.cpp
+  Date.cpp
+  Game.cpp
+  League.cpp
+  LeagueMaker.cpp
+  main.cpp
+  Team.cpp

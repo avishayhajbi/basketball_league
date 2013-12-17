@@ -1,0 +1,11 @@
+﻿  Basketball_league.cpp
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(84): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(217): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(268): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(270): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(286): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(350): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(431): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(161): warning C4717: 'Basketball_league::get_teams' : recursive on all control paths, function will cause runtime stack overflow
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(166): warning C4717: 'Basketball_league::get_games' : recursive on all control paths, function will cause runtime stack overflow
+  basketball_leadue.vcxproj -> D:\Documents\Documents\Visual Studio 2012\Projects\basketball_leadue\Debug\basketball_league.exe
