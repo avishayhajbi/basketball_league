@@ -3,6 +3,7 @@
 
 #include <algorithm> // std::sort
 #include <iomanip> // std::format table
+#include <locale> // for substring
 #include <vector>
 #include <list>
 #include <iostream>

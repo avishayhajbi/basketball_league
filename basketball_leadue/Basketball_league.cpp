@@ -11,6 +11,7 @@ Date* checkDate(string data)
 	const char* dataCstr = data.c_str();
 	char* lastTokenInData;
 	char* tokenDataArr[20]; //hold inpyt tokens
+	tokenDataArr[2]="";
 	int tokenDataArrIndex = 0;
 	/*bool isDateValidDate; /* if date validation is needed */
 
@@ -34,10 +35,32 @@ Date* checkDate(string data)
 	if (atoi(tokenDataArr[0])>12)
 		date = new Date(tokenDataArr[0],tokenDataArr[1],tokenDataArr[2]);
 	else  date = new Date(tokenDataArr[1],tokenDataArr[0],tokenDataArr[2]);
+
 	delete [] dataCharPointer;
 	//return s;
 	return date;
 
+}
+
+// templated version of my_equal so it could work with both char and wchar_t
+template<typename charT>
+struct my_equal {
+    my_equal( const std::locale& loc ) : loc_(loc) {}
+    bool operator()(charT ch1, charT ch2) {
+        return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
+    }
+private:
+    const std::locale& loc_;
+};
+
+// find substring (case insensitive)
+template<typename T>
+int ci_find_substr( const T& str1, const T& str2, const std::locale& loc = std::locale() )
+{
+    T::const_iterator it = std::search( str1.begin(), str1.end(), 
+        str2.begin(), str2.end(), my_equal<T::value_type>(loc) );
+    if ( it != str1.end() ) return it - str1.begin();
+    else return -1; // not found
 }
 
 Basketball_league::Basketball_league()
@@ -75,22 +98,33 @@ void Basketball_league::start(int argc, char* argv[])
 		{
 			printLeagueTabel();
 		}
-		//compare between dates
-
-		if (str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos)
+		//another way to find substring
+		std::string txt = ".txt";
+		int isTXT = ci_find_substr( str, txt );
+		if (isTXT>0)
 		{
-			//finally check if the input is date 
-			Date* date = (checkDate(str));	
-			for (int i=0; i< _game.size(); i++)
-			{
-				Date* d = _game[i]->get_date();
-				if (*d==*date)
-				{
-					cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
-				}
-			}	
-
+				char* temp = const_cast<char*>(str.c_str());
+				//argv[1] = new char[str.length() + 1];
+				//std::copy(str.begin(), str.end(), argv[1]);
+				argv[1]=temp;
+				argv[1][str.size()+1] = '\0'; // don't forget the terminating 0
+				readUserFileAction(argc,argv);
 		}
+		//compare between dates
+		else if (str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos)
+		{
+				//finally check if the input is date 
+				Date* date = (checkDate(str));		
+				for (int i=0; i< _game.size(); i++)
+				{
+					Date* d = _game[i]->get_date();
+					if (*d==*date)
+					{
+						cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
+					}
+				}
+		}
+		
 		if (str.compare("admin"))
 		{
 			if (str.compare("addgame")==0)
@@ -328,6 +362,8 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 {
 	ifstream userfile;
 	userfile.open (argv[1], ios::in | ios::out | ios::app);
+	userfile.clear();
+	userfile.seekg(0, _dateBase->get_file().beg);
 	string str="";
 
 	while ( getline (userfile,str) )
@@ -335,28 +371,38 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 		str.erase( std::remove(str.begin(),str.end(),' '), str.end() );
 		std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 
-		//if then else like the function above
 		// statments
+// statments
 		if (str.compare("showleague")==0)
 		{
 			printLeagueTabel();
 		}
-		//compare between dates
-
-		if (str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos)
+		//another way to find substring
+		std::string txt = ".txt";
+		int isTXT = ci_find_substr( str, txt );
+		if (isTXT>0)
 		{
-			//finally check if the input is date 
-			Date* date = (checkDate(str));	
-			for (int i=0; i< _game.size(); i++)
-			{
-				Date* d = _game[i]->get_date();
-				if (*d==*date)
-				{
-					cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
-				}
-			}	
-
+				char* temp = const_cast<char*>(str.c_str());
+				//argv[1] = new char[str.length() + 1];
+				//std::copy(str.begin(), str.end(), argv[1]);
+				argv[1]=temp;
+				argv[1][str.size()+1] = '\0'; // don't forget the terminating 0
+				readUserFileAction(argc,argv);
 		}
+		//compare between dates
+		else if (str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos)
+		{
+				//finally check if the input is date 
+				Date* date = (checkDate(str));		
+				for (int i=0; i< _game.size(); i++)
+				{
+					Date* d = _game[i]->get_date();
+					if (*d==*date)
+					{
+						cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
+					}
+				}
+		}		
 		if (str.compare("admin"))
 		{
 			if (str.compare("addgame")==0)
