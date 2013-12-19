@@ -7,7 +7,7 @@ class League
 
 	virtual void readFromFile()=0;
 
-	virtual void writeToFile(string line)=0;
+	virtual void writeToFileinTheEnd(string line)=0;
 
 };
 #endif

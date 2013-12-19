@@ -44,6 +44,7 @@ public:
 	Date* get_date();
 	
 	int get_gameNumber();
+	int get_round();
 
 	int get_finalScoreHOME();
 

@@ -48,7 +48,7 @@ Game::Game(string line)
 			}
 			splited.append(temp);
 		}
-		int tempFound= token.find('-');
+		int tempFound= token.find(':');
 		locationInLine+=tempFound+1;
 		string temp = token.substr(0, tempFound);
 		_finalScoreHOME=atoi(temp.c_str());
@@ -64,7 +64,7 @@ Game::Game(string line)
 		locationInLine+=tempFound+1;
 		token=line.substr(locationInLine,line.length());
 
-		tempFound= token.find('-');
+		tempFound= token.find(':');
 		locationInLine+=tempFound+1;
 		temp = token.substr(0, tempFound);
 		_halftimeScoreHOME=atoi(temp.c_str());
@@ -98,6 +98,10 @@ Date* Game::get_date()
 int Game::get_gameNumber()
 {
 	return _game;
+}
+int Game::get_round()
+{
+	return _round;
 }
 
 int Game::get_finalScoreHOME()

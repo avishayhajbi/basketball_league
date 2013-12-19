@@ -1,5 +1,7 @@
 #include "Basketball_league.h"
+/*צריך לבדוק מצב אם הקובץ קיים או לא כדי לדעת אם לתת לו כתיבה ראשונית של כותרות או לא*/
 
+//check if the date is valid or not
 Date* checkDate(string data)
 {
 	/*to hold date values*/
@@ -34,7 +36,12 @@ Date* checkDate(string data)
 	Date* date;
 	if (atoi(tokenDataArr[0])>12)
 		date = new Date(tokenDataArr[0],tokenDataArr[1],tokenDataArr[2]);
-	else  date = new Date(tokenDataArr[1],tokenDataArr[0],tokenDataArr[2]);
+	else  
+		{
+			if (strcmp(tokenDataArr[0],"0")==0)
+				tokenDataArr[0]="NONE";
+			date = new Date(tokenDataArr[1],tokenDataArr[0],tokenDataArr[2]);
+	}
 
 	delete [] dataCharPointer;
 	//return s;
@@ -42,7 +49,9 @@ Date* checkDate(string data)
 
 }
 
-// templated version of my_equal so it could work with both char and wchar_t
+
+//the 2 function below are for compare thats another way to compare between 2 strings
+//templated version of my_equal so it could work with both char and wchar_t
 template<typename charT>
 struct my_equal {
     my_equal( const std::locale& loc ) : loc_(loc) {}
@@ -53,7 +62,7 @@ private:
     const std::locale& loc_;
 };
 
-// find substring (case insensitive)
+//find substring (case insensitive)
 template<typename T>
 int ci_find_substr( const T& str1, const T& str2, const std::locale& loc = std::locale() )
 {
@@ -63,16 +72,17 @@ int ci_find_substr( const T& str1, const T& str2, const std::locale& loc = std::
     else return -1; // not found
 }
 
+//initialize the  varialbies
 Basketball_league::Basketball_league()
 {
-	int _isOpen=1;
+	_isOpen=1;
 	_game= vector<Game*> ();
-	_game.begin();
 	_team= vector<Team*> ();
-
 	_dateBase = new DataBase();
+
 }
 
+//controll the program navigation
 void Basketball_league::start(int argc, char* argv[])
 {
 	readFromFile();
@@ -80,92 +90,187 @@ void Basketball_league::start(int argc, char* argv[])
 	bool loop=1; // starts with 1 value
 	while (loop)
 	{
+		//if there is a user file to read and he inserted before lunce the program
 		if (argc>1)
 		{
-			argc=0;
 			readUserFileAction(argc,argv);
+			argc=0;	
 		}
 
-		//getting the next action/request
-		getline(cin,str);
-
+		//getting the next action/request fron the user
+		inputerror: getline(cin,str);
+		//real input because i change it to lower case and without spaces 
+		string realInput = str;
 		/*all the matches will be without spaces and with lower case*/
 		str.erase( std::remove(str.begin(),str.end(),' '), str.end() );
 		std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+		
+		//check if str starts with '.' it should be a regex
+		if (str.substr(0,1).compare(".")==0)
+		{
+			goto inputerror;
+		}
 
 		// statments
 		if (str.compare("showleague")==0)
 		{
 			printLeagueTabel();
 		}
-		//another way to find substring
+		
 		std::string txt = ".txt";
+		//another way to find substring
 		int isTXT = ci_find_substr( str, txt );
+		//if we detect a string with .txt its a file
 		if (isTXT>0)
 		{
 				char* temp = const_cast<char*>(str.c_str());
-				//argv[1] = new char[str.length() + 1];
+				//another way to copy
 				//std::copy(str.begin(), str.end(), argv[1]);
 				argv[1]=temp;
-				argv[1][str.size()+1] = '\0'; // don't forget the terminating 0
+				//don't forget the terminating \0
+				argv[1][str.size()+1] = '\0'; 
 				readUserFileAction(argc,argv);
 		}
-		//compare between dates
-		else if (str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos)
+
+		//check if we have date elements like . , / and it start with game namber
+		else if (str.find("game")!= std::string::npos&&(str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos))
 		{
+			//delete the word 'game' from the input string and keep only the number
+			int gameNumber=0;
+			if(str.substr(5,6).compare(",") || str.substr(5,6).compare("."))
+				gameNumber = atoi(str.substr(4,5).c_str());
+			string strGame=str.substr(6,str.length());
 				//finally check if the input is date 
-				Date* date = (checkDate(str));		
+				Date* date = (checkDate(strGame));		
 				for (int i=0; i< _game.size(); i++)
 				{
 					Date* d = _game[i]->get_date();
-					if (*d==*date)
+					if (*d==*date && _game[i]->get_round() == gameNumber)
 					{
+						//display the asks games
 						cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
 					}
 				}
+				cout<<endl;
+		}
+
+		//display the team names
+		if (str.substr(0,9).compare("showteams")==0)
+		{
+			cout<<"Team Name"<<endl;
+			cout<<"-----------"<<endl;
+			for (int i=0 ; i< _team.size();i++)
+			{
+				cout<<_team[i]->get_teamName()<<endl;
+			}
+			
+		}
+		//display a specific game
+		else if (str.substr(0,4).compare("show")==0)
+		{
+			//split the string into 2 parts each one of then is a team
+			str = str.substr(4,str.length());
+			int locationInLine=0;
+			string splited,home,guest;
+			for (int i=0 ; i < realInput.length(); i++)
+			{
+				string temp = realInput.substr(i,1);
+				if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
+				{
+					home=splited;
+					locationInLine+=i+3;
+					guest=realInput.substr(locationInLine,realInput.length());
+					splited.clear();
+					break;
+				}
+				splited.append(temp);
+			}
+			home = home.substr(5,home.length());
 		}
 		
-		if (str.compare("admin"))
+		//access allow only if you are the manager
+		if (str.substr(0,5).compare("admin")==0)
 		{
-			if (str.compare("addgame")==0)
+			//remove the admin word from the beginning and keep the left string
+			string strAdmin = str.substr(5,str.length());
+
+			if (strAdmin.compare("addgame")==0)
 			{
-				if(_isOpen ==1 ) 
-					writeToFile("END");
-				_isOpen=0;
+				//close the ream registeration
+				if(_isOpen==1 ) 
+				{
+					_dateBase->get_file()<<("START")<<endl;
+					_dateBase->get_file()<<("END")<<endl;
+					_isOpen=0;
+				}
 				string newGame;
+				cout<<"insert new game: ";
 				getline(cin,newGame);
-				//check game input
+				//check if the game is correct by names and game number
+				newGame = addGame(newGame);
+				_game.push_back(new Game(newGame));
+				interpretGamesToTeamsStatus(_game.at(_game.size()-1));
+				writeToFileinTheEnd(newGame);
 			}
-			if (str.compare("addteam")==0)
+			//register teams
+			if (strAdmin.compare("registerteams")==0)
 			{
+				
 				if(_isOpen==1)
 				{
-					//cout<<"insert team name"<<endl;
-					string newTeam;
-					getline(cin,newTeam);
-					//adding new team to the data base
-					writeToFile(newTeam);
+					string newTeam;int check=1;
+					vector<string> vec;
+					//save my list in vector to comper with the input string
+					for (int i=0;i<_team.size();i++)
+					{
+						vec.push_back(_team[i]->get_teamName());
+					}
+					cout<<"insert team names: "<<endl;
+					//check is the inset team is not exist and exit when ; insert
+					while (!newTeam.compare(";")==0)
+					{
+						getline(cin,newTeam);
+						for (int i=0;i<vec.size();i++)
+						{
+							if(newTeam.compare(vec[i])==0)
+							{
+								cout<<"team "<<newTeam<< " is already registered"<<endl;
+								check=0;
+							}
+						}
+						if (check==1 && !newTeam.compare(";")==0)
+						{
+							writeToFileinTheEnd(newTeam);
+							_team.push_back(new Team(newTeam));
+						}
+						check=1;					
+					}
+					cout<< "Teams was added"<<endl;
 				}
 				else
 				{
-					cout<<"can not add team name because the league is already start"<<endl;
+					cout<<"cannot add new teams because the league is already started"<<endl;
 				}
 			}
-			if (str.compare("updateteamname")==0)
+			//update team name
+			if (strAdmin.compare("updateteamname")==0)
 			{
+				string oldTeam;
 				if(_isOpen==1)
 				{
 					//cout<<"insert 'old and new' team name"<<endl;
-					string oldTeam;
+					cout<<"Old Team Name: ";
 					getline(cin,oldTeam);
 					string newTeam;
+					cout<<"New Team Name: ";
 					getline(cin,newTeam);
 					//update team name into the data base
 					replace_line_in_file(oldTeam , newTeam);
+					cout<< "Team name updated"<<endl;
 				}
 				else
 				{
-					cout<<"can not update team name because the league is already start"<<endl;
+					cout<<"cannot update "<<oldTeam<<" because the league is already started"<<endl;
 				}
 			}
 		}
@@ -175,8 +280,7 @@ void Basketball_league::start(int argc, char* argv[])
 			_dateBase->get_file().close();
 			loop=0;
 		}
-		cout<<endl;
-	}		
+	}	
 }
 
 void Basketball_league::set_isOpen(int num)
@@ -199,6 +303,7 @@ vector<Game*> Basketball_league::get_games()
 	return get_games();
 }
 
+//when the program starts it read from the data base
 void Basketball_league::readFromFile()
 {
 	/*
@@ -235,14 +340,37 @@ void Basketball_league::readFromFile()
 
 }
 
-void Basketball_league::writeToFile(string line)
+//add a new line into the data base
+void Basketball_league::writeToFileinTheEnd(string line)
 {
 	/*
 	write the data into the data base file 
 	*/
-	_dateBase->get_file()<<line<<endl;
+	string inbuf;
+	vector<string> vec;
+	_dateBase->get_file().clear();
+	_dateBase->get_file().seekg(0, _dateBase->get_file().beg);
+	while (getline(_dateBase->get_file(), inbuf))
+	{
+		vec.push_back(inbuf);
+	}
+	if (vec[vec.size()-1].compare("END")||vec[vec.size()-1].compare("END\n"))
+	{
+		vec.insert(vec.begin()+(vec.size()-1),line);
+	}
+
+	_dateBase->get_file().close();
+	system("DEL /F basketball2013.txt");
+	_dateBase = new DataBase();
+
+	for(int i =0; i<vec.size();i++)
+	{
+		_dateBase->get_file()<<(vec[i])<<endl;
+	}
+
 }
 
+//interpret the team status into my vareables
 void Basketball_league::interpretGamesToTeamsStatus(Game* game)
 {
 	/*
@@ -295,6 +423,7 @@ template<typename T> void printElement(T t, const int& width)
 }
 /*end template table format*/
 
+//print league table
 void Basketball_league::printLeagueTabel()
 {
 	int length=0;
@@ -334,10 +463,11 @@ void Basketball_league::printLeagueTabel()
 		cout<< setw(7)<< left << _team[i]->get_fail();
 		cout<< setw(6)<< left << _team[i]->get_success()<<endl;
 	}
-	cout << "---------------------------------------------"<<endl;
+	cout << "---------------------------------------------"<<endl<<endl;
+
 }
 
-/* start sort function */
+/* start sort function (it sort the table teams)*/
 bool your_comparer( Team* left,  Team* right)
 {
 	// return true if left should come before right, false otherwise
@@ -353,11 +483,13 @@ bool your_comparer( Team* left,  Team* right)
 }
 /* end sort function */
 
+//sort the table
 void Basketball_league::sortTable ()
 {
 	sort (_team.begin(), _team.end(), your_comparer);
 }
 
+//read commands file if the user insert before or after the program lunched
 void Basketball_league::readUserFileAction(int argc,char* argv[])
 {
 	ifstream userfile;
@@ -372,11 +504,11 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 		std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 
 		// statments
-// statments
 		if (str.compare("showleague")==0)
 		{
 			printLeagueTabel();
 		}
+
 		//another way to find substring
 		std::string txt = ".txt";
 		int isTXT = ci_find_substr( str, txt );
@@ -389,73 +521,90 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 				argv[1][str.size()+1] = '\0'; // don't forget the terminating 0
 				readUserFileAction(argc,argv);
 		}
+
 		//compare between dates
-		else if (str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos)
+		else if (str.find("game")!= std::string::npos&&(str.find(".")!= std::string::npos || str.find(",")!= std::string::npos || str.find("/")!= std::string::npos))
 		{
+			//delete 'game' from the date string
+			int gameNumber=0;
+			if(str.substr(5,6).compare(",") || str.substr(5,6).compare("."))
+				gameNumber = atoi(str.substr(4,5).c_str());
+			string strGame=str.substr(6,str.length());
 				//finally check if the input is date 
-				Date* date = (checkDate(str));		
+				Date* date = (checkDate(strGame));		
 				for (int i=0; i< _game.size(); i++)
 				{
 					Date* d = _game[i]->get_date();
-					if (*d==*date)
+					if (*d==*date && _game[i]->get_round() == gameNumber)
 					{
 						cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
 					}
 				}
-		}		
-		if (str.compare("admin"))
+				cout<<endl;
+		}
+		
+		if (str.substr(0,5).compare("admin")==0)
 		{
-			if (str.compare("addgame")==0)
+			string strAdmin = str.substr(5,str.length());
+			if (strAdmin.compare("addgame")==0)
 			{
-				if(_isOpen ==1 ) 
-					writeToFile("END");
-				_isOpen=0;
+				if(_isOpen==1 ) 
+				{
+					_dateBase->get_file()<<("START")<<endl;
+					_dateBase->get_file()<<("END")<<endl;
+					_isOpen=0;
+				}
 				string newGame;
 				getline(cin,newGame);
-				//check game input
+				//check if the game is correct by names and game number
+				/*if(addGame(newGame))
+				{
+				_game.push_back(new Game(newGame));
+				writeToFileinTheEnd(newGame);
+				}*/
+				
+				//check game input and ..
 			}
-			if (str.compare("addteam")==0)
+			if (strAdmin.compare("addteam")==0)
 			{
+				string newTeam;
 				if(_isOpen==1)
 				{
 					//cout<<"insert team name"<<endl;
-					string newTeam;
 					getline(cin,newTeam);
 					//adding new team to the data base
-					writeToFile(newTeam);
+					writeToFileinTheEnd(newTeam);
 				}
 				else
 				{
-					cout<<"can not add team name because the league is already start"<<endl;
+					cout<<"can not add "<<newTeam<<" because the league is already started"<<endl;
 				}
 			}
-			if (str.compare("updateteamname")==0)
+			if (strAdmin.compare("updateteamname")==0)
 			{
+				string oldTeam;
 				if(_isOpen==1)
 				{
 					//cout<<"insert 'old and new' team name"<<endl;
-					string oldTeam;
+					cout<<"Old Team Name: ";
 					getline(cin,oldTeam);
 					string newTeam;
+					cout<<"New Team Name: ";
 					getline(cin,newTeam);
 					//update team name into the data base
 					replace_line_in_file(oldTeam , newTeam);
+					cout<< "Team name updated"<<endl;
 				}
 				else
 				{
-					cout<<"can not update team name because the league is already start"<<endl;
+					cout<<"can not update "<<oldTeam<<" because the league is already started"<<endl;
 				}
 			}
 		}
-
-		if (str.compare("exit")==0)
-		{
-			_dateBase->get_file().close();
-		}
-		cout<<endl;
 	}
 }
 
+//change line in the file if they macth
 void Basketball_league::replace_line_in_file(string search_string , string replace_string)
 {
 
@@ -476,6 +625,27 @@ void Basketball_league::replace_line_in_file(string search_string , string repla
 
 	for(int i =0; i<vec.size();i++)
 	{
-		writeToFile(vec[i]);
+		_dateBase->get_file()<<(vec[i])<<endl;
 	}
+}
+
+string Basketball_league::addGame(string line)
+{
+	/*
+	 that the string i want to create
+	 "3.2, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)"
+	*/
+	string _home;
+	string _guest;
+	Date* _date;
+	int _round;
+	int _game;
+	int _finalScoreHOME;
+	int _finalScoreGUEST;
+	int _halftimeScoreHOME;
+	int _halftimeScoreGUEST;
+
+
+
+	return "3.2, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)";
 }

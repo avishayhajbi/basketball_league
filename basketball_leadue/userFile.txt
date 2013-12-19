@@ -1,5 +1,3 @@
-add team
 show league
-Oct.20,2013
-20/10/2013
-
+game 1, Oct.20,2013
+Game1 .20/10/2013

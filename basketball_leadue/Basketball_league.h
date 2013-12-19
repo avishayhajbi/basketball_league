@@ -35,12 +35,13 @@ public:
 	vector<Team*> get_teams();
 	vector<Game*> get_games();
 	void readFromFile();
-	void writeToFile(string line);
+	void writeToFileinTheEnd(string line);
 	void interpretGamesToTeamsStatus(Game* game);
 	void start(int argc, char* argv[]);
 	void printLeagueTabel();
 	void sortTable();
 	void readUserFileAction(int argc,char* argv[]);
 	void replace_line_in_file(string search_string , string replace_string);
+	string addGame (string line);
 };
 #endif
