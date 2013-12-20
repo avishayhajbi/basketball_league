@@ -36,6 +36,7 @@ public:
 	vector<Game*> get_games();
 	void readFromFile();
 	void writeToFileinTheEnd(string line);
+	void writeToFileinTheMiddel(string line);
 	void interpretGamesToTeamsStatus(Game* game);
 	void start(int argc, char* argv[]);
 	void printLeagueTabel();
@@ -43,5 +44,7 @@ public:
 	void readUserFileAction(int argc,char* argv[]);
 	void replace_line_in_file(string search_string , string replace_string);
 	string addGame (string line);
+	string getGameDetails(int i);
+	string getFullGameDetails(int i);
 };
 #endif

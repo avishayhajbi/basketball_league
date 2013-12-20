@@ -69,3 +69,8 @@ string Team::get_teamName()
 {
 	return _teameName;
 }
+
+void Team::set_teamName (string replace)
+{
+	_teameName.replace(0,_teameName.length(),replace);
+}

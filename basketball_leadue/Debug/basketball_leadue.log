@@ -1,29 +1,37 @@
-﻿  Basketball_league.cpp
+﻿  Team.cpp
+  Basketball_league.cpp
 d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(125): warning C4018: '<' : signed/unsigned mismatch
 d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(138): warning C4018: '<' : signed/unsigned mismatch
 d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(141): warning C4018: '>' : signed/unsigned mismatch
 d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(186): warning C4018: '<' : signed/unsigned mismatch
 d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(231): warning C4018: '<' : signed/unsigned mismatch
 d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(240): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(373): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(386): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(438): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(440): warning C4018: '>' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(456): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(530): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(543): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(546): warning C4018: '>' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(593): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(638): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(647): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(714): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(733): warning C4101: '_halftimeScoreHOME' : unreferenced local variable
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(728): warning C4101: '_date' : unreferenced local variable
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(731): warning C4101: '_finalScoreHOME' : unreferenced local variable
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(729): warning C4101: '_round' : unreferenced local variable
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(730): warning C4101: '_game' : unreferenced local variable
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(734): warning C4101: '_halftimeScoreGUEST' : unreferenced local variable
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(732): warning C4101: '_finalScoreGUEST' : unreferenced local variable
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(306): warning C4717: 'Basketball_league::get_teams' : recursive on all control paths, function will cause runtime stack overflow
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(311): warning C4717: 'Basketball_league::get_games' : recursive on all control paths, function will cause runtime stack overflow
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(368): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(381): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(433): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(435): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(451): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(525): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(538): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(541): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(588): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(635): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(644): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(705): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(727): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(743): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(762): warning C4101: '_halftimeScoreHOME' : unreferenced local variable
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(757): warning C4101: '_date' : unreferenced local variable
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(760): warning C4101: '_finalScoreHOME' : unreferenced local variable
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(758): warning C4101: '_round' : unreferenced local variable
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(759): warning C4101: '_game' : unreferenced local variable
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(763): warning C4101: '_halftimeScoreGUEST' : unreferenced local variable
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(761): warning C4101: '_finalScoreGUEST' : unreferenced local variable
+  Generating Code...
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(301): warning C4717: 'Basketball_league::get_teams' : recursive on all control paths, function will cause runtime stack overflow
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(306): warning C4717: 'Basketball_league::get_games' : recursive on all control paths, function will cause runtime stack overflow
+  Skipping... (no relevant changes detected)
+  DataBase.cpp
+  main.cpp
+  LeagueMaker.cpp
   basketball_leadue.vcxproj -> D:\Documents\Documents\Visual Studio 2012\Projects\basketball_leadue\Debug\basketball_league.exe

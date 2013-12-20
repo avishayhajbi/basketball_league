@@ -107,7 +107,7 @@ inputerror: getline(cin,str);
 		std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 
 		//check if str starts with '.' it should be a regex
-		if (str.substr(0,1).compare(".")==0)
+		if (str.substr(0,1).compare(".")==0||str.substr(0,1).compare(",")==0||str.substr(0,1).compare("/")==0)
 		{
 			goto inputerror;
 		}
@@ -150,11 +150,11 @@ inputerror: getline(cin,str);
 			}
 			home = home.substr(5,home.length());
 			//search the requested game in reverse order to get the latest game
-			for (int i=_game.size()-1; i >= 0; i--)
+			for (int i=_game.size()-1; i >= 0 ; i--)
 			{
-				if (home.compare(_game[i]->get_home())==0 && guest.compare(_game[i]->get_guest().substr(0,(_game[i]->get_guest().length()-1)))==0) 
+				if (home.compare(_game[i]->get_home())==0 && guest.compare(_game[i]->get_guest().substr(0,(_game[i]->get_guest().length())))==0) 
 				{
-					cout<<home<<" - "<<guest<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
+					cout<<getGameDetails(i)<<endl;
 					break;
 				}
 			}
@@ -189,7 +189,7 @@ inputerror: getline(cin,str);
 				if (*d==*date && _game[i]->get_round() == gameNumber)
 				{
 					//display the asks games
-					cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
+					cout<<cout<<getGameDetails(i)<<endl;
 				}
 			}
 			cout<<endl;
@@ -263,8 +263,7 @@ inputerror: getline(cin,str);
 			if (strAdmin.compare("updateteamname")==0)
 			{
 				string oldTeam;
-				if(_isOpen==1)
-				{
+				
 					//cout<<"insert 'old and new' team name"<<endl;
 					cout<<"Old Team Name: ";
 					getline(cin,oldTeam);
@@ -274,11 +273,7 @@ inputerror: getline(cin,str);
 					//update team name into the data base
 					replace_line_in_file(oldTeam , newTeam);
 					cout<< "Team name updated"<<endl;
-				}
-				else
-				{
-					cout<<"cannot update "<<oldTeam<<" because the league is already started"<<endl;
-				}
+				
 			}
 		}
 
@@ -365,6 +360,37 @@ void Basketball_league::writeToFileinTheEnd(string line)
 	{
 		vec.insert(vec.begin()+(vec.size()-1),line);
 	}
+
+	_dateBase->get_file().close();
+	system("DEL /F basketball2013.txt");
+	_dateBase = new DataBase();
+
+	for(int i =0; i<vec.size();i++)
+	{
+		_dateBase->get_file()<<(vec[i])<<endl;
+	}
+
+}
+
+//add a new line into the data base
+void Basketball_league::writeToFileinTheMiddel(string line)
+{
+	/*
+	write the data into the data base file 
+	*/
+	string inbuf;
+	vector<string> vec;
+	_dateBase->get_file().clear();
+	_dateBase->get_file().seekg(0, _dateBase->get_file().beg);
+	while (getline(_dateBase->get_file(), inbuf))
+	{
+		vec.push_back(inbuf);
+	}
+	/* here i decide when to insert my new line
+	if (vec[vec.size()-1].compare("END")||vec[vec.size()-1].compare("END\n"))
+	{
+		vec.insert(vec.begin()+(vec.size()-1),line);
+	}*/
 
 	_dateBase->get_file().close();
 	system("DEL /F basketball2013.txt");
@@ -557,9 +583,9 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 			//search the requested game in reverse order to get the latest game
 			for (int i=_game.size()-1; i >= 0 ; i--)
 			{
-				if (home.compare(_game[i]->get_home())==0 && guest.compare(_game[i]->get_guest().substr(0,(_game[i]->get_guest().length()-1)))==0) 
+				if (home.compare(_game[i]->get_home())==0 && guest.compare(_game[i]->get_guest().substr(0,(_game[i]->get_guest().length())))==0) 
 				{
-					cout<<home<<" - "<<guest<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
+					cout<<getGameDetails(i)<<endl;
 					break;
 				}
 			}
@@ -596,7 +622,9 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 				if (*d==*date && _game[i]->get_round() == gameNumber)
 				{
 					//display the asks games
-					cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<"-"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<"-"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
+					cout<<getGameDetails(i)<<endl;
+					//cout<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<":"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<":"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
+					//cout<<_game[i]->get_round()<<"."<<_game[i]->get_gameNumber()<<", "<<_game[i]->get_date()->get_month()<<". "<<_game[i]->get_date()->get_day()<<", "<<_game[i]->get_date()->get_year()<<" "<<_game[i]->get_home()<<" - "<<_game[i]->get_guest()<<" "<<_game[i]->get_finalScoreHOME()<<":"<<_game[i]->get_finalScoreGUEST()<<" ("<<_game[i]->get_halftimeScoreHOME()<<":"<<_game[i]->get_halftimeScoreGUEST()<<")"<<endl;
 				}
 			}
 			cout<<endl;
@@ -620,7 +648,7 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 				string newGame;
 				cout<<"insert new game: ";
 				getline(cin,newGame);
-				//check if the game is correct by names and game number
+				//check if the game is correct by names and game number and act.
 				newGame = addGame(newGame);
 				_game.push_back(new Game(newGame));
 				interpretGamesToTeamsStatus(_game.at(_game.size()-1));
@@ -667,25 +695,18 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 				}
 			}
 			//update team name
-			if (strAdmin.compare("updateteamname")==0)
+			if (strAdmin.compare("replaceteamname")==0)
 			{
 				string oldTeam;
-				if(_isOpen==1)
-				{
-					//cout<<"insert 'old and new' team name"<<endl;
-					cout<<"Old Team Name: ";
-					getline(cin,oldTeam);
-					string newTeam;
-					cout<<"New Team Name: ";
-					getline(cin,newTeam);
-					//update team name into the data base
-					replace_line_in_file(oldTeam , newTeam);
-					cout<< "Team name updated"<<endl;
-				}
-				else
-				{
-					cout<<"cannot update "<<oldTeam<<" because the league is already started"<<endl;
-				}
+				//cout<<"insert 'old and new' team name"<<endl;
+				cout<<"Old Team Name: ";
+				getline(cin,oldTeam);
+				string newTeam;
+				cout<<"New Team Name: ";
+				getline(cin,newTeam);
+				//update team name into the data base
+				replace_line_in_file(oldTeam , newTeam);
+				cout<< "Team name updated"<<endl;	
 			}
 		}
 		cout<<endl;
@@ -702,8 +723,47 @@ void Basketball_league::replace_line_in_file(string search_string , string repla
 	_dateBase->get_file().seekg(0, _dateBase->get_file().beg);
 	while (getline(_dateBase->get_file(), inbuf))
 	{
-		if(inbuf.compare(search_string)==0)
-			vec.push_back(replace_string);
+		if(inbuf.find(search_string)!= std::string::npos)
+		{
+			//seperate the exactly word from the sentence.
+			string round = inbuf.substr(0,1);	
+			string game = inbuf.substr(2,3);
+			game = game.substr(0,1);
+			regex integer("(\\+|-)?[[:digit:]]+");
+			//here the value will be changed only if is a teame name we are looking for
+			if (regex_match(round,integer) && regex_match(round,integer))
+			{
+				for (int i=0;i<_game.size(); i++)
+				{
+					//looking for the exactly game
+					if (_game[i]->get_round()==atoi(round.c_str()) && _game[i]->get_gameNumber()==atoi(game.substr(0,1).c_str()))
+					{
+						//if the search_string match replace her with the replace_string
+						if (_game[i]->get_home().compare(search_string)==0)
+						{
+							_game[i]->set_home(replace_string);
+							vec.push_back(getFullGameDetails(i));
+						}
+						else if (_game[i]->get_guest().compare(search_string)==0)
+						{
+							_game[i]->set_guest(replace_string);
+							vec.push_back(getFullGameDetails(i));
+						}
+					}
+				}
+			}
+			else 
+				{
+					vec.push_back(replace_string);
+					for (int i=0; i<_team.size(); i++)
+					{
+						if (_team[i]->get_teamName().compare(search_string)==0)
+						{
+							_team[i]->set_teamName(replace_string);
+						}
+					}
+				}
+		}
 		else vec.push_back(inbuf);
 	}
 
@@ -721,7 +781,7 @@ string Basketball_league::addGame(string line)
 {
 	/*
 	that the string i want to create
-	"3.2, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)"
+	"1.1, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)"
 	*/
 	string _home;
 	string _guest;
@@ -736,4 +796,57 @@ string Basketball_league::addGame(string line)
 
 
 	return "3.2, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)";
+}
+
+string Basketball_league:: getGameDetails(int i)
+{
+	/*
+		ostringstream convert;   // stream used for the conversion
+		convert << Number;      // insert the textual representation of 'Number' in the characters in the stream
+		Result = convert.str();
+	*/
+	string send;
+	send+= _game[i]->get_home();
+	send+= " - ";
+	send+= _game[i]->get_guest();
+	send+= " ";
+	send+= to_string(_game[i]->get_finalScoreHOME());
+	send+= ":";
+	send+= to_string(_game[i]->get_finalScoreGUEST());
+	send+= " (";
+	send+= to_string(_game[i]->get_halftimeScoreHOME());
+	send+= ":";
+	send+= to_string(_game[i]->get_halftimeScoreGUEST());
+	send+= ")";
+	
+	return 	send;
+
+}
+string Basketball_league:: getFullGameDetails(int i)
+{
+	string send;
+	//to_string();
+	send+= to_string(_game[i]->get_round());
+	send+= ".";
+	send+= to_string(_game[i]->get_gameNumber());
+	send+= ", ";
+	send+= _game[i]->get_date()->get_month();
+	send+= ". ";
+	send+= to_string(_game[i]->get_date()->get_day());
+	send+= ", ";
+	send+= to_string(_game[i]->get_date()->get_year());
+	send+= " ";
+	send+= _game[i]->get_home();
+	send+= " - ";
+	send+= _game[i]->get_guest();
+	send+= " ";
+	send+= to_string(_game[i]->get_finalScoreHOME());
+	send+= ":";
+	send+= to_string(_game[i]->get_finalScoreGUEST());
+	send+= " (";
+	send+= to_string(_game[i]->get_halftimeScoreHOME());
+	send+= ":";
+	send+= to_string(_game[i]->get_halftimeScoreGUEST());
+	send+= ")";
+	return send;
 }

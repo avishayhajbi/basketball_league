@@ -36,11 +36,11 @@ Game::Game(string line)
 		}
 		for (int i=0 ; i < token.length(); i++)
 		{
-			string temp = token.substr(i,1);	
+			string temp = token.substr(i,1);
 			regex integer("(\\+|-)?[[:digit:]]+");
 			if (token.length()>(i+4) && regex_match(temp,integer))
 			{
-				_guest=splited;
+				_guest=splited.substr(0,splited.length()-1);
 				locationInLine+=i;
 				token=line.substr(locationInLine,line.length());
 				splited.clear();
@@ -124,3 +124,11 @@ int Game::get_halftimeScoreGUEST()
 	return _halftimeScoreGUEST;
 }
 
+void Game::set_home(string replace)
+{
+	_home.replace(0,_home.length(),replace);
+}
+void Game::set_guest(string replace)
+{
+	_guest.replace(0,_guest.length(),replace);
+}

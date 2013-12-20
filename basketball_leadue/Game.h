@@ -36,24 +36,18 @@ public:
 	Game();
 	Game(string line);
 	Game(Date* date, string home, string guest, int round, int finalScoreHOME, int finalScoreGUEST, int halftimeHOME, int halftimeGUEST, int game);
-
 	string get_home();
-
 	string get_guest();
-
-	Date* get_date();
-	
+	Date* get_date();	
 	int get_gameNumber();
 	int get_round();
-
 	int get_finalScoreHOME();
-
 	int get_finalScoreGUEST();
-
 	int get_halftimeScoreHOME();
-
 	int get_halftimeScoreGUEST();
 
+	void set_home(string replace);
+	void set_guest(string replace);
 
 };
 #endif

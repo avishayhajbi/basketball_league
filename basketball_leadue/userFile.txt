@@ -4,3 +4,6 @@ Game1 .20/10/2013
 show teams
 show Hapoel Ramat-Gan - Irroni Ashdod
 show
+admin replace team name
+show teams
+show league
