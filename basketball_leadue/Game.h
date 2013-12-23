@@ -48,6 +48,9 @@ public:
 
 	void set_home(string replace);
 	void set_guest(string replace);
+	void set_finalScoreHOME(string replace);
+	void set_finalScoreGUEST(string replace);
+	void set_date(Date* date);
 
 };
 #endif

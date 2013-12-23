@@ -1,9 +1,4 @@
-show league
-game 1, Oct.20,2013
-Game1 .20/10/2013
-show teams
-show Hapoel Ramat-Gan - Irroni Ashdod
-show
-admin replace team name
 show teams
 show league
+admin correction Maccabbi TA - Irroni Ashdod 123:34
+admin correction game 1, 21/10/2013

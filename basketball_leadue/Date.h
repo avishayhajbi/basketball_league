@@ -28,6 +28,7 @@ public:
 	int get_year();
 	Date* get_date();
 	bool operator==(const Date& right)const;
+	int getSize();
 };
 
 #endif

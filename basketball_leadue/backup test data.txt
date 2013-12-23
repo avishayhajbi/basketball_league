@@ -1,0 +1,50 @@
+add team
+show league
+Oct.20,2013
+20/10/2013
+session1
+TEAM
+Hapoel Ramat-Gan
+Irroni Ashdod
+Galil Elion
+Maccabbi TA
+END
+START
+1.1, Oct. 20, 2013 Maccabbi TA - Irroni Ashdod 98:103 (51:50)
+1.2, Oct. 20, 2013 Galil Elion - Hapoel Ramat-Gan 91:88 (51:50)
+2.1, Oct. 27, 2013 Maccabbi TA - Galil Elion 90:83 (63:47)
+2.2, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90:98 (63:51)
+END
+
+admin add game 1.1, Oct. 20, 2013 Maccabbi TA - Irroni Ashdod 98:103 (51:50)
+admin add game 1.2, Oct. 20, 2013 Maccabbi TA - Irroni Ashdod
+
+	//"1.1, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)"
+	string newGame;
+	newGame+= round;
+	newGame+= ".";
+	newGame+= game;
+	newGame+= ", ";
+	newGame+= date->get_date()->get_month();
+	newGame+= ". ";
+	newGame+= date->get_date()->get_day();
+	newGame+= ", ";
+	newGame+= date->get_date()->get_year();
+	newGame+= " ";
+	newGame+= home;
+	newGame+= " - ";
+	newGame+= guest;
+	newGame+= " ";
+	newGame+= finalScoreHOME;
+	newGame+= ":";
+	newGame+= finalScoreGUEST;
+	newGame+= " (";
+	newGame+= halftimeScoreHOME;
+	newGame+= ":";
+	newGame+= halftimeScoreGUEST;
+	newGame+= ")";
+
+	/*check if the game is legal*/
+
+	//_game.push_back(new Game(newGame));
+	//writeToFileinTheEnd(newGame);

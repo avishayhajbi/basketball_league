@@ -109,3 +109,10 @@ bool Date::operator==(const Date& right)const
 	}
 	return false;
 }
+
+int Date::getSize()
+{
+	int size=5;
+	size+= _month.length();
+	return size;
+}

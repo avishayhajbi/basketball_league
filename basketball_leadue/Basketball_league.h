@@ -1,5 +1,6 @@
 #ifndef BASKETBALL_LEAGUE_H
 #define BASKETBALL_LEAGUE_H
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <algorithm> // std::sort
 #include <iomanip> // std::format table
@@ -10,6 +11,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdio.h>
+#include <time.h>       /* time_t, time, ctime */
 #include "DataBase.h"
 
 using namespace std;
@@ -36,6 +38,7 @@ public:
 	vector<Game*> get_games();
 	void readFromFile();
 	void writeToFileinTheEnd(string line);
+	void writeToOUTPUTfile (string line);
 	void writeToFileinTheMiddel(string line);
 	void interpretGamesToTeamsStatus(Game* game);
 	void start(int argc, char* argv[]);
@@ -43,8 +46,15 @@ public:
 	void sortTable();
 	void readUserFileAction(int argc,char* argv[]);
 	void replace_line_in_file(string search_string , string replace_string);
-	string addGame (string line);
+	void addGame (string line);
+	void updateGameDetails(string home,string guest, string score);
+	void updateGame(string gameNumber,string date);
 	string getGameDetails(int i);
 	string getFullGameDetails(int i);
+	string getFullGameDetails(Game * game);
+	void removeLine(string line);
 };
+
+
+
 #endif

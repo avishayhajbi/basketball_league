@@ -132,3 +132,17 @@ void Game::set_guest(string replace)
 {
 	_guest.replace(0,_guest.length(),replace);
 }
+
+
+void Game::set_finalScoreHOME(string replace)
+{
+	_finalScoreHOME= (atoi(replace.c_str()));
+}
+void Game::set_finalScoreGUEST(string replace)
+{
+	_finalScoreGUEST= (atoi (replace.c_str()));
+}
+void Game::set_date(Date* date)
+{
+	_date = date;
+}

@@ -16,10 +16,11 @@ class DataBase
 {
 private:
 	fstream _myfile;
-	//ofstream _out;
+	fstream _output;
 public:
 	DataBase();
 	fstream& get_file();
-	
+	fstream& get_output();
+	void initDB ();
 };
 #endif

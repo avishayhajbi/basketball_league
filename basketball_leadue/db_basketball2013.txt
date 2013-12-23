@@ -1,0 +1,12 @@
+session1
+TEAM
+Hapoel Ramat-Gan
+Irroni Ashdod
+Galil Elion
+Maccabbi TA
+END
+START
+1.2, Oct. 20, 2013 Galil Elion - Hapoel Ramat-Gan 91:88 (51:50)
+2.1, Oct. 27, 2013 Maccabbi TA - Galil Elion 90:83 (63:47)
+2.2, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90:98 (63:51)
+END
