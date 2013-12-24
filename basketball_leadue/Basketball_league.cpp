@@ -8,49 +8,29 @@
 //check if the date is valid or not
 Date* checkDate(string data)
 {
-	/*to hold date values*/
+std::stringstream stringStream(data);
+std::string line;
+vector<string>wordVector;
+while(std::getline(stringStream, line)) 
+{
+    std::size_t prev = 0, pos;
+    while ((pos = line.find_first_of(" .,/", prev)) != std::string::npos)
+    {
+        if (pos > prev)
+            wordVector.push_back(line.substr(prev, pos-prev));
+        prev = pos+1;
+    }
+    if (prev < line.length())
+        wordVector.push_back(line.substr(prev, std::string::npos));
+}
 
-	/*char* day;*/  
-	/*char* month;*/
-	/*char* year;*/
-	char* context = NULL;
-	const char* dataCstr = data.c_str();
-	char* lastTokenInData;
-	char* tokenDataArr[20]; //hold inpyt tokens
-	tokenDataArr[2]="";
-	int tokenDataArrIndex = 0;
-	/*bool isDateValidDate; /* if date validation is needed */
-
-	char* dataCharPointer = new char[data.length() + 1];  /*allocate memory to char** array*/
-
-	strcpy_s(dataCharPointer,data.length() + 1,dataCstr); /*copy string values by pointers to array*/
-	lastTokenInData = strtok_s (dataCharPointer," .,/", &context); /*delimiters*/
-
-	while (lastTokenInData != NULL) /*as long as line containes tokens*/
-	{
-		tokenDataArr[tokenDataArrIndex] = lastTokenInData; /*parsed token is copy to the array*/
-		lastTokenInData = strtok_s (NULL," .,/",&context);
-		tokenDataArrIndex++;
-	}
-
-	//printf ("day = %s\nmonth = %s\nyear = %s\n",tokenDataArr[0],tokenDataArr[1],tokenDataArr[2]); /* can show up to 20 tokens dependes on input*/
-	//string s = "";
-	//s.append(tokenDataArr[0]);s.append(".");s.append(tokenDataArr[1]);s.append(",");s.append(tokenDataArr[2]);
 	Date* date;
-
-	if (atoi(tokenDataArr[0])>12)
-		date = new Date(tokenDataArr[0],tokenDataArr[1],tokenDataArr[2]);
-	else  
-	{
-		if (strcmp(tokenDataArr[0],"0")==0)
-			tokenDataArr[0]="NONE";
-		date = new Date(tokenDataArr[1],tokenDataArr[0],tokenDataArr[2]);
-	}
-
-	delete [] dataCharPointer;
-	//return s;
+	//wordVector is my date array
+	if (!atoi(wordVector[0].c_str())>0) 
+		date = new Date(wordVector[1],wordVector[0],wordVector[2]);
+	else date = new Date(wordVector[0],wordVector[1],wordVector[2]);
 	return date;
-
+	
 }
 
 void showHelp()
@@ -73,6 +53,7 @@ void showHelp()
 	cout<< "Correction Delete - use this function and then the <unambiguous-data-to-be-deleted> to delete it " << endl<< endl;
 }
 
+/*
 //the 2 function below are for compare thats another way to compare between 2 strings
 //templated version of my_equal so it could work with both char and wchar_t
 template<typename charT>
@@ -94,6 +75,7 @@ int ci_find_substr( const T& str1, const T& str2, const std::locale& loc = std::
 	if ( it != str1.end() ) return it - str1.begin();
 	else return -1; // not found
 }
+*/
 
 //initialize the  varialbies
 Basketball_league::Basketball_league()
@@ -108,7 +90,11 @@ Basketball_league::Basketball_league()
 //controll the program navigation
 void Basketball_league::start(int argc, char* argv[])
 {
-	cout<<"Type HELP to get to Help menu"<<endl;
+	checkDate("20/10/2013");
+	checkDate("oct. 21,2013");
+	
+
+
 	readFromFile();
 	string str="";
 	bool loop=1; // starts with 1 value
@@ -188,9 +174,9 @@ inputerror: getline(cin,str);
 
 		std::string txt = ".txt";
 		//another way to find substring
-		int isTXT = ci_find_substr( str, txt );
+		//int isTXT = ci_find_substr( str, txt );
 		//if we detect a string with .txt its a file
-		if (isTXT>0)
+		if (txt.find(".txt")>1)
 		{
 			char* temp = const_cast<char*>(str.c_str());
 			//another way to copy
@@ -209,7 +195,7 @@ inputerror: getline(cin,str);
 			if(str.substr(5,6).compare(",") || str.substr(5,6).compare("."))
 				gameNumber = atoi(str.substr(4,5).c_str());
 			string strGame=str.substr(6,str.length());
-			//finally check if the input is date 
+			//finally check if the input is date
 			Date* date = (checkDate(strGame));		
 			for (int i=0; i< _game.size(); i++)
 			{
@@ -247,7 +233,7 @@ inputerror: getline(cin,str);
 				//writeToFileinTheEnd(newGame);
 				interpretGamesToTeamsStatus(_game.at(_game.size()-1));
 				string output = "user add a new game ";
-				output+= newGame;
+				output+=newGame;
 				writeToOUTPUTfile(output);
 			}
 			//register teams
@@ -263,11 +249,12 @@ inputerror: getline(cin,str);
 					{
 						vec.push_back(_team[i]->get_teamName());
 					}
-					cout<<"insert team names: "<<endl;
+					//cout<<"insert team names: "<<endl;
 					//check is the inset team is not exist and exit when ; insert
 					while (!newTeam.compare(";")==0)
 					{
-						getline(cin,newTeam);
+						
+						getline (cin,newTeam);
 						for (int i=0;i<vec.size();i++)
 						{
 							if(newTeam.compare(vec[i])==0)
@@ -286,49 +273,55 @@ inputerror: getline(cin,str);
 						}
 						check=1;					
 					}
-
-
+					cout<< "Teams was added"<<endl;
 				}
 				else
 				{
 					cout<<"cannot add new teams because the league is already started"<<endl;
 				}
 			}
-			//correction
-			if (strAdmin.substr(0,10).compare("correction")==0)
+			//update team name
+			if (strAdmin.substr(0,17).compare("correctionreplace")==0)
 			{
-				strAdmin = strAdmin.substr(0,17);
-				if (strAdmin.substr(0,17).compare("correctionreplace")==0)
+				int location = realInput.find("replace");
+				realInput = realInput.substr(location+8,realInput.length());
+				//seperate the old team name and new team name
+				int locationInLine=0;
+				string splited,oldTeam,newTeam;
+				string temp = realInput;
+				oldTeam = temp.substr(0,realInput.find("by")-1);
+				newTeam = temp.substr(realInput.find("by ")+3,temp.length());
+
+				/*for (int i=0 ; i < realInput.length(); i++)
 				{
-					int location = realInput.find("replace");
-					realInput = realInput.substr(location+8,realInput.length());
-					//seperate the old team name and new team name
-					int locationInLine=0;
-					string splited,oldTeam,newTeam;
-					for (int i=0 ; i < realInput.length(); i++)
-					{
-						string temp = realInput.substr(i,1);
-						if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
-						{
-							oldTeam=splited;
-							locationInLine+=i+3;
-							newTeam=realInput.substr(locationInLine,realInput.length());
-							splited.clear();
-							break;
-						}
-						splited.append(temp);
-					}
-					//oldTeam = oldTeam.substr(5,oldTeam.length()-1);
-
-					//update team name into the data base
-					replace_line_in_file(oldTeam , newTeam);
-					string output = "user replace team name ";
-					output+=oldTeam;
-					output+= " to ";
-					output+= newTeam;
-					writeToOUTPUTfile(output);
+				string temp = realInput.substr(i,1);
+				if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
+				{
+				oldTeam=splited;
+				locationInLine+=i+3;
+				newTeam=realInput.substr(locationInLine,realInput.length());
+				splited.clear();
+				break;
 				}
+				splited.append(temp);
+				}*/
 
+				//update team name into the data base
+				replace_line_in_file(oldTeam , newTeam);
+				string output = "user replace team name ";
+				output+= oldTeam;
+				output+=" to ";
+				output+=newTeam;
+				writeToOUTPUTfile(output);
+				//cout<< "Team name updated"<<endl;	
+			}
+			if (strAdmin.substr(0,14).compare("correctiongame")==0)
+			{
+				strAdmin = strAdmin.substr(strAdmin.find("game")+4,strAdmin.length());
+				string gameNumber = strAdmin.substr(0,1);
+				string sdate = strAdmin.substr(2,strAdmin.length());
+				Date* date = checkDate(strAdmin.substr(2,strAdmin.length()));
+				updateGame(gameNumber, sdate);
 			}
 			if (strAdmin.substr(0,16).compare("correctiondelete")==0)
 			{
@@ -352,8 +345,48 @@ inputerror: getline(cin,str);
 				else cout<<"cannot delete team because the league is already started"<<endl;
 
 			}
-		}
+			if (strAdmin.substr(0,10).compare("correction")==0 && strAdmin.find('-') != std::string::npos )
+			{
+				realInput = realInput.substr(realInput.find("correction")+11,realInput.length());
+				int locationInLine=0;
+				string splited,home,guest;
+				string temp = realInput;
+				for (int i=0 ; i < realInput.length(); i++)
+				{
+					string temp = realInput.substr(i,1);
+					if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
+					{
+						home=splited;
+						locationInLine+=i+3;
+						guest=realInput.substr(locationInLine,realInput.length());
+						splited.clear();
+						break;
+					}
+					splited.append(temp);
+				}
+				string score;
+				for (int i=0 ; i < guest.length(); i++)
+				{
+					string temp = guest.substr(i,1);
+					try{
+						if (guest.length()>(i+4) && atoi(temp.c_str())>0)
+						{
+							score = guest;
+							guest=splited.substr(0,splited.length()-1);
+							locationInLine+=i;
+							score=score.substr(guest.length()+1,score.length());
+							splited.clear();
+							break;
+						}
+					}
+					catch(exception e){};
+					splited.append(temp);
+				}
+				updateGameDetails(home,guest,score);
+				interpretGamesToTeamsStatus(_game.at(_game.size()-1));
 
+			}
+		}
 		if (str.compare("exit")==0)
 		{
 			_dateBase->get_file().close();
@@ -463,19 +496,27 @@ void Basketball_league::writeToOUTPUTfile(string line)
 	time_t t1 = time(0);   // get time now
 	struct tm * now = localtime( & t1 );
 
+	std::stringstream out;
+	//out << i;
+	//s += out.str();
 	string s;
-	s+=to_string(now->tm_year + 1900);
+	out << (now->tm_year + 1900);
+	s+= out.str();
 	s+='-';
-	s+=to_string(now->tm_mon + 1);
+	out << (now->tm_mon + 1);
+	s+= out.str();
 	s+='-';
-	s+=to_string(now->tm_mday);
+	out << (now->tm_mday);
+	s+= out.str();
 	s+=", ";
-	s+=to_string(now->tm_hour);
+	out << (now->tm_hour);
+	s+= out.str();
 	s+=":";
-	s+=to_string(now->tm_min);
+	out << (now->tm_min);
+	s+= out.str();
 	s+=":";
-	s+=to_string(now->tm_sec);
-
+	out << (now->tm_sec);
+	s+= out.str();
 	string inbuf;
 	vector<string> vec;
 	_dateBase->get_output().clear();
@@ -723,9 +764,9 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 
 		std::string txt = ".txt";
 		//another way to find substring
-		int isTXT = ci_find_substr( str, txt );
+		//int isTXT = ci_find_substr( str, txt );
 		//if we detect a string with .txt its a file
-		if (isTXT>0)
+		if (txt.find(".txt")>1)
 		{
 			char* temp = const_cast<char*>(str.c_str());
 			//another way to copy
@@ -842,16 +883,16 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 
 				/*for (int i=0 ; i < realInput.length(); i++)
 				{
-					string temp = realInput.substr(i,1);
-					if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
-					{
-						oldTeam=splited;
-						locationInLine+=i+3;
-						newTeam=realInput.substr(locationInLine,realInput.length());
-						splited.clear();
-						break;
-					}
-					splited.append(temp);
+				string temp = realInput.substr(i,1);
+				if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
+				{
+				oldTeam=splited;
+				locationInLine+=i+3;
+				newTeam=realInput.substr(locationInLine,realInput.length());
+				splited.clear();
+				break;
+				}
+				splited.append(temp);
 				}*/
 
 				//update team name into the data base
@@ -895,29 +936,29 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 			}
 			if (strAdmin.substr(0,10).compare("correction")==0 && strAdmin.find('-') != std::string::npos )
 			{
-					realInput = realInput.substr(realInput.find("correction")+11,realInput.length());
-					int locationInLine=0;
-					string splited,home,guest;
-					string temp = realInput;
-					for (int i=0 ; i < realInput.length(); i++)
+				realInput = realInput.substr(realInput.find("correction")+11,realInput.length());
+				int locationInLine=0;
+				string splited,home,guest;
+				string temp = realInput;
+				for (int i=0 ; i < realInput.length(); i++)
+				{
+					string temp = realInput.substr(i,1);
+					if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
 					{
-						string temp = realInput.substr(i,1);
-						if (realInput.length()>(i+4) && realInput.at(i)==' ' && realInput.at(i+1)=='-' && realInput.at(i+2)==' ')
-						{
-							home=splited;
-							locationInLine+=i+3;
-							guest=realInput.substr(locationInLine,realInput.length());
-							splited.clear();
-							break;
-						}
-						splited.append(temp);
+						home=splited;
+						locationInLine+=i+3;
+						guest=realInput.substr(locationInLine,realInput.length());
+						splited.clear();
+						break;
 					}
-					string score;
-					for (int i=0 ; i < guest.length(); i++)
-					{
-						string temp = guest.substr(i,1);
-						regex integer("(\\+|-)?[[:digit:]]+");
-						if (guest.length()>(i+4) && regex_match(temp,integer))
+					splited.append(temp);
+				}
+				string score;
+				for (int i=0 ; i < guest.length(); i++)
+				{
+					string temp = guest.substr(i,1);
+					try{
+						if (guest.length()>(i+4) && atoi(temp.c_str()))
 						{
 							score = guest;
 							guest=splited.substr(0,splited.length()-1);
@@ -926,11 +967,13 @@ void Basketball_league::readUserFileAction(int argc,char* argv[])
 							splited.clear();
 							break;
 						}
-						splited.append(temp);
 					}
-					updateGameDetails(home,guest,score);
-					interpretGamesToTeamsStatus(_game.at(_game.size()-1));
-					
+					catch(exception e){};
+					splited.append(temp);
+				}
+				updateGameDetails(home,guest,score);
+				interpretGamesToTeamsStatus(_game.at(_game.size()-1));
+
 			}
 		}
 		cout<<endl;
@@ -953,42 +996,46 @@ void Basketball_league::replace_line_in_file(string search_string , string repla
 			string round = inbuf.substr(0,1);	
 			string game = inbuf.substr(2,3);
 			game = game.substr(0,1);
-			regex integer("(\\+|-)?[[:digit:]]+");
 			//here the value will be changed only if is a teame name we are looking for
-			if (regex_match(round,integer) && regex_match(game,integer))
-			{
-				for (int i=0;i<_game.size(); i++)
+			try{
+				if (atoi(round.c_str())>0 && atoi(game.c_str())>0)
 				{
-					//looking for the exactly game
-					if (_game[i]->get_round()==atoi(round.c_str()) && _game[i]->get_gameNumber()==atoi(game.substr(0,1).c_str()))
+					for (int i=0;i<_game.size(); i++)
 					{
-						//if the search_string match replace her with the replace_string
-						if (_game[i]->get_home().compare(search_string)==0)
+						//looking for the exactly game
+						if (_game[i]->get_round()==atoi(round.c_str()) && _game[i]->get_gameNumber()==atoi(game.substr(0,1).c_str()))
 						{
-							_game[i]->set_home(replace_string);
-							vec.push_back(getFullGameDetails(i));
+							//if the search_string match replace her with the replace_string
+							if (_game[i]->get_home().compare(search_string)==0)
+							{
+								_game[i]->set_home(replace_string);
+								vec.push_back(getFullGameDetails(i));
+							}
+							else if (_game[i]->get_guest().compare(search_string)==0)
+							{
+								_game[i]->set_guest(replace_string);
+								vec.push_back(getFullGameDetails(i));
+							}
 						}
-						else if (_game[i]->get_guest().compare(search_string)==0)
+					}
+				}
+
+				else 
+				{
+					vec.push_back(replace_string);
+					for (int i=0; i<_team.size(); i++)
+					{
+						if (_team[i]->get_teamName().compare(search_string)==0)
 						{
-							_game[i]->set_guest(replace_string);
-							vec.push_back(getFullGameDetails(i));
+							_team[i]->set_teamName(replace_string);
 						}
 					}
 				}
 			}
-			else 
-			{
-				vec.push_back(replace_string);
-				for (int i=0; i<_team.size(); i++)
-				{
-					if (_team[i]->get_teamName().compare(search_string)==0)
-					{
-						_team[i]->set_teamName(replace_string);
-					}
-				}
-			}
+			catch (exception e){};
 		}
 		else vec.push_back(inbuf);
+
 	}
 
 	_dateBase->get_file().close();
@@ -1022,7 +1069,6 @@ void Basketball_league::addGame(string line)
 	string halftimeScoreGUEST;
 
 
-	regex integer("(\\+|-)?[[:digit:]]+");
 	int location=0;
 	/*round = line.substr(location,1);
 	location+=2;
@@ -1033,134 +1079,149 @@ void Basketball_league::addGame(string line)
 	line= line.substr(1,line.length());
 	if (_game.size()==0)
 		game="1";
-	else game = to_string(_game[_game.size()-1]->get_gameNumber()+1);
-	if (regex_match(round,integer) && regex_match(game,integer))
-	{
-		string splited;
-		// how to create only date token ??
-		line = line.substr(location, line.length());
-		date = checkDate(line);
-		line = line.substr(11,line.length());
-		string temp = line.substr(0,line.find(" "));
-		if (regex_match(temp,integer))
-		{
-			line= line.substr(temp.length(),line.length());
-		}
-		if (line.at(0)==' ')
-		{
-			line= line.substr(1,line.length());
-		}
-
-		//team names and score
-		string token = line;
-		temp.clear();
-		splited.clear();
-		int locationInLine=0;
-		for (int i=0 ; i < token.length(); i++)
-		{
-			string temp = token.substr(i,1);	
-			if (token.length()>(i+4) && token.at(i)==' ' && token.at(i+1)=='-' && token.at(i+2)==' ')
-			{
-				home=splited;
-				locationInLine+=i+3;
-				token=line.substr(locationInLine,line.length());
-				splited.clear();
-				break;
-			}
-			splited.append(temp);
-		}
-		int check =1;
-		for (int i=0 ; i < token.length(); i++)
-		{
-			string temp = token.substr(i,1);
-			regex integer("(\\+|-)?[[:digit:]]+");
-			if (token.length()>(i+4) && regex_match(temp,integer))
-			{
-				guest=splited.substr(0,splited.length()-1);
-				locationInLine+=i;
-				token=line.substr(locationInLine,line.length());
-				splited.clear();
-				check=0;
-				break;
-			}
-			splited.append(temp);
-		}
-		if (check)
-		{
-			guest=token;
-			finalScoreHOME="0";
-			finalScoreGUEST="0";
-			halftimeScoreHOME="0";
-			halftimeScoreGUEST="0";
-
-		}
-		else
-		{
-			int tempFound= token.find(':');
-			locationInLine+=tempFound+1;
-			temp = token.substr(0, tempFound);
-			finalScoreHOME=temp;
-			token=line.substr(locationInLine,line.length());
-
-			tempFound= token.find(' ');
-			locationInLine+=tempFound+1;
-			temp = token.substr(0, tempFound);
-			finalScoreGUEST=temp;
-			token=line.substr(locationInLine,line.length());
-
-			tempFound= token.find('(');
-			locationInLine+=tempFound+1;
-			token=line.substr(locationInLine,line.length());
-
-			tempFound= token.find(':');
-			locationInLine+=tempFound+1;
-			temp = token.substr(0, tempFound);
-			halftimeScoreHOME=temp;
-			token=line.substr(locationInLine,line.length());
-
-			tempFound= token.find(')');
-			locationInLine+=tempFound+1;
-			temp = token.substr(0, tempFound);
-			halftimeScoreGUEST=temp;
-		}
-
-		//"1.1, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)"
-		string newGame;
-		newGame+= round;
-		newGame+= ".";
-		newGame+= game;
-		newGame+= ", ";
-		newGame+= date->get_month();
-		newGame+= ". ";
-		newGame+= to_string(date->get_day());
-		newGame+= ", ";
-		newGame+= to_string(date->get_year());
-		newGame+= " ";
-		newGame+= home;
-		newGame+= " - ";
-		newGame+= guest;
-		newGame+= " ";
-		newGame+= finalScoreHOME;
-		newGame+= ":";
-		newGame+= finalScoreGUEST;
-		newGame+= " (";
-		newGame+= halftimeScoreHOME;
-		newGame+= ":";
-		newGame+= halftimeScoreGUEST;
-		newGame+= ")";
-
-		/*check if the game is legal*/
-		Game* addgame= new Game(newGame);
-		
-			//check if the game is already exist
-		if(_game.at(_game.size()-1)->get_round() >= (addgame->get_round()) && _game.at(_game.size()-1)->get_gameNumber() < (addgame->get_gameNumber()))
-				return;
-		
-
-		_game.push_back(addgame);
-		writeToFileinTheEnd(newGame);
+	else {
+		std::stringstream out;
+		out<<(_game[_game.size()-1]->get_gameNumber()+1);
+		game = out.str();
 	}
+	try{
+		if (atoi(round.c_str())>0 && atoi(game.c_str())>0)
+		{
+			string splited;
+			// how to create only date token ??
+			line = line.substr(location, line.length());
+			date = checkDate(line);
+			line = line.substr(11,line.length());
+			string temp = line.substr(0,line.find(" "));
+			try{
+				if (atoi(temp.c_str())>0)
+				{
+					line= line.substr(temp.length(),line.length());
+				}
+			}
+			catch(exception e){};
+			if (line.at(0)==' ')
+			{
+				line= line.substr(1,line.length());
+			}
 
+			//team names and score
+			string token = line;
+			temp.clear();
+			splited.clear();
+			int locationInLine=0;
+			for (int i=0 ; i < token.length(); i++)
+			{
+				string temp = token.substr(i,1);	
+				if (token.length()>(i+4) && token.at(i)==' ' && token.at(i+1)=='-' && token.at(i+2)==' ')
+				{
+					home=splited;
+					locationInLine+=i+3;
+					token=line.substr(locationInLine,line.length());
+					splited.clear();
+					break;
+				}
+				splited.append(temp);
+			}
+			int check =1;
+			for (int i=0 ; i < token.length(); i++)
+			{
+				string temp = token.substr(i,1);
+				try{
+					if (token.length()>(i+4) && atoi(temp.c_str())>0)
+					{
+						guest=splited.substr(0,splited.length()-1);
+						locationInLine+=i;
+						token=line.substr(locationInLine,line.length());
+						splited.clear();
+						check=0;
+						break;
+					}
+				}
+				catch(exception e){}
+				splited.append(temp);
+			}
+			if (check)
+			{
+				guest=token;
+				finalScoreHOME="0";
+				finalScoreGUEST="0";
+				halftimeScoreHOME="0";
+				halftimeScoreGUEST="0";
+
+			}
+			else
+			{
+				int tempFound= token.find(':');
+				locationInLine+=tempFound+1;
+				temp = token.substr(0, tempFound);
+				finalScoreHOME=temp;
+				token=line.substr(locationInLine,line.length());
+
+				tempFound= token.find(' ');
+				locationInLine+=tempFound+1;
+				temp = token.substr(0, tempFound);
+				finalScoreGUEST=temp;
+				token=line.substr(locationInLine,line.length());
+
+				tempFound= token.find('(');
+				locationInLine+=tempFound+1;
+				token=line.substr(locationInLine,line.length());
+
+				tempFound= token.find(':');
+				locationInLine+=tempFound+1;
+				temp = token.substr(0, tempFound);
+				halftimeScoreHOME=temp;
+				token=line.substr(locationInLine,line.length());
+
+				tempFound= token.find(')');
+				locationInLine+=tempFound+1;
+				temp = token.substr(0, tempFound);
+				halftimeScoreGUEST=temp;
+			}
+			std::stringstream out;
+			//out << i;
+			//s += out.str();
+			//"1.1, Oct. 27, 2013 Irroni Ashdod - Hapoel Ramat-Gan 90-98 (63-51)"
+			string newGame;
+			newGame+= round;
+			newGame+= ".";
+			newGame+= game;
+			newGame+= ", ";
+			newGame+= date->get_month();
+			newGame+= ". ";
+			out << (date->get_day());
+			newGame+= out.str();
+			newGame+= ", ";
+			out << (date->get_year());
+			newGame+= out.str();
+			newGame+= " ";
+			newGame+= home;
+			newGame+= " - ";
+			newGame+= guest;
+			newGame+= " ";
+			newGame+= finalScoreHOME;
+			newGame+= ":";
+			newGame+= finalScoreGUEST;
+			newGame+= " (";
+			newGame+= halftimeScoreHOME;
+			newGame+= ":";
+			newGame+= halftimeScoreGUEST;
+			newGame+= ")";
+
+			/*check if the game is legal*/
+			Game* addgame= new Game(newGame);
+
+			//check if the game is already exist
+			if(_game.at(_game.size()-1)->get_round() >= (addgame->get_round()) && _game.at(_game.size()-1)->get_gameNumber() < (addgame->get_gameNumber()))
+				return;
+
+
+			_game.push_back(addgame);
+			writeToFileinTheEnd(newGame);
+		}
+	}
+	catch(exception e) {}
 
 	/*
 	this is the string i want to create
@@ -1177,23 +1238,31 @@ string Basketball_league:: getGameDetails(int i)
 	convert << Number;      // insert the textual representation of 'Number' in the characters in the stream
 	Result = convert.str();
 	*/
+	std::stringstream out;
+	//out << i;
+	//s += out.str();
 	string send;
 	send+= _game[i]->get_home();
 	send+= " - ";
 	send+= _game[i]->get_guest();
 	send+= " ";
-	send+= to_string(_game[i]->get_finalScoreHOME());
+	out <<(_game[i]->get_finalScoreHOME());
+	send+= out.str();
 	send+= ":";
-	send+= to_string(_game[i]->get_finalScoreGUEST());
+	out <<(_game[i]->get_finalScoreGUEST());
+	send+= out.str();
 	send+= " (";
-	send+= to_string(_game[i]->get_halftimeScoreHOME());
+	out <<(_game[i]->get_halftimeScoreHOME());
+	send+= out.str();
 	send+= ":";
-	send+= to_string(_game[i]->get_halftimeScoreGUEST());
+	out <<(_game[i]->get_halftimeScoreGUEST());
+	send+= out.str();
 	send+= ")";
 
 	return 	send;
 
 }
+
 string Basketball_league:: getFullGameDetails(Game * game)
 {
 	/*
@@ -1202,28 +1271,37 @@ string Basketball_league:: getFullGameDetails(Game * game)
 	Result = convert.str();
 	*/
 	//to_string();
+	std::stringstream out;
 	string send;
-	send+= to_string(game->get_round());
+	out <<(game->get_round());
+	send+= out.str();
 	send+= ".";
-	send+= to_string(game->get_gameNumber());
+	out <<(game->get_gameNumber());
+	send+= out.str();
 	send+= ", ";
 	send+= game->get_date()->get_month();
 	send+= ". ";
-	send+= to_string(game->get_date()->get_day());
+	out <<(game->get_date()->get_day());
+	send+= out.str();
 	send+= ", ";
-	send+= to_string(game->get_date()->get_year());
+	out <<(game->get_date()->get_year());
+	send+= out.str();
 	send+= " ";
 	send+= game->get_home();
 	send+= " - ";
 	send+= game->get_guest();
 	send+= " ";
-	send+= to_string(game->get_finalScoreHOME());
+	out <<(game->get_finalScoreHOME());
+	send+= out.str();
 	send+= ":";
-	send+= to_string(game->get_finalScoreGUEST());
+	out <<(game->get_finalScoreGUEST());
+	send+= out.str();
 	send+= " (";
-	send+= to_string(game->get_halftimeScoreHOME());
+	out <<(game->get_halftimeScoreHOME());
+	send+= out.str();
 	send+= ":";
-	send+= to_string(game->get_halftimeScoreGUEST());
+	out <<(game->get_halftimeScoreGUEST());
+	send+= out.str();
 	send+= ")";
 	return send;
 
@@ -1231,29 +1309,38 @@ string Basketball_league:: getFullGameDetails(Game * game)
 
 string Basketball_league:: getFullGameDetails(int i)
 {
+	std::stringstream out;
 	string send;
 	//to_string();
-	send+= to_string(_game[i]->get_round());
+	out <<(_game[i]->get_round());
+	send+= out.str();
 	send+= ".";
-	send+= to_string(_game[i]->get_gameNumber());
+	out <<(_game[i]->get_gameNumber());
+	send+= out.str();
 	send+= ", ";
 	send+= _game[i]->get_date()->get_month();
 	send+= ". ";
-	send+= to_string(_game[i]->get_date()->get_day());
+	out <<(_game[i]->get_date()->get_day());
+	send+= out.str();
 	send+= ", ";
-	send+= to_string(_game[i]->get_date()->get_year());
+	out <<(_game[i]->get_date()->get_year());
+	send+= out.str();
 	send+= " ";
 	send+= _game[i]->get_home();
 	send+= " - ";
 	send+= _game[i]->get_guest();
 	send+= " ";
-	send+= to_string(_game[i]->get_finalScoreHOME());
+	out <<(_game[i]->get_finalScoreHOME());
+	send+= out.str();
 	send+= ":";
-	send+= to_string(_game[i]->get_finalScoreGUEST());
+	out <<(_game[i]->get_finalScoreGUEST());
+	send+= out.str();
 	send+= " (";
-	send+= to_string(_game[i]->get_halftimeScoreHOME());
+	out <<(_game[i]->get_halftimeScoreHOME());
+	send+= out.str();
 	send+= ":";
-	send+= to_string(_game[i]->get_halftimeScoreGUEST());
+	out <<(_game[i]->get_halftimeScoreGUEST());
+	send+= out.str();
 	send+= ")";
 	return send;
 }
@@ -1305,11 +1392,11 @@ void Basketball_league::updateGameDetails(string home,string guest, string score
 			int  loc=tempFound+1;
 			string temp = score.substr(0, tempFound);
 			string temp2 = score.substr(temp.length()+1, temp.length());
-			
+
 			Game* newGame= new Game(getFullGameDetails(i));
 			newGame->set_finalScoreHOME(temp);
 			newGame->set_finalScoreGUEST(temp2);
-		/*	string oldScore;
+			/*	string oldScore;
 			oldScore += to_string(_game[i]->get_finalScoreHOME());
 			oldScore += ":";
 			oldScore += to_string(_game[i]->get_finalScoreGUEST());*/
@@ -1319,19 +1406,20 @@ void Basketball_league::updateGameDetails(string home,string guest, string score
 			break;
 		}
 	}
-	
+
 }
+
 void Basketball_league::updateGame(string gameNumber,string date)
 {
 	for (int i=0 ; i< _game.size(); i++)
 	{
 		if (_game[i]->get_round()== atoi(gameNumber.c_str()))
 		{
-			
+
 			Game* newGame= new Game(getFullGameDetails(i));
 			newGame->set_date(checkDate(date));
-			
-		/*	string oldScore;
+
+			/*	string oldScore;
 			oldScore += to_string(_game[i]->get_finalScoreHOME());
 			oldScore += ":";
 			oldScore += to_string(_game[i]->get_finalScoreGUEST());*/

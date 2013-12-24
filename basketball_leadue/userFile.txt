@@ -1,4 +1,3 @@
 show teams
 show league
-admin correction Maccabbi TA - Irroni Ashdod 123:34
-admin correction game 1, 21/10/2013
+

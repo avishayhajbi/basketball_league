@@ -1,11 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-#include <regex>
 #include <sstream>
-#include <vector>
-#include <list>
-#include <iostream>
-#include <assert.h>
 #include <stdio.h>
 #include "Date.h"
 using namespace std;
@@ -14,21 +9,13 @@ class Game
 {
 private:
 	string _home;
-
 	string _guest;
-
 	Date* _date;
-
 	int _round;
-	
 	int _game;
-
 	int _finalScoreHOME;
-
 	int _finalScoreGUEST;
-
 	int _halftimeScoreHOME;
-
 	int _halftimeScoreGUEST;
 
 

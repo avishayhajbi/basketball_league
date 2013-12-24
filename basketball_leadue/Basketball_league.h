@@ -5,13 +5,8 @@
 #include <algorithm> // std::sort
 #include <iomanip> // std::format table
 #include <locale> // for substring
-#include <vector>
-#include <list>
-#include <iostream>
-#include <assert.h>
 #include <stdio.h>
-#include <stdio.h>
-#include <time.h>       /* time_t, time, ctime */
+#include <time.h>  /* time_t, time, ctime */
 #include "DataBase.h"
 
 using namespace std;

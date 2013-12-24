@@ -1,7 +1,6 @@
 #include "Date.h"
 
-namespace YearMonths
-{
+
     enum Months { Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6, Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12 };
 
     char* selectMonth(int month)
@@ -31,7 +30,7 @@ namespace YearMonths
 		if (month == Months::Dec)
         { return "Dec";}
     }
-}
+
 
 bool is_number(const std::string& s)
 {
@@ -53,11 +52,11 @@ Date::Date()
 Date::Date(string line)
 {
 
-		line.erase( std::remove(line.begin(),line.end(), ' '), line.end() );
-
+for(int i=0; i<line.length(); i++)
+     if(line[i] == ' ') line.erase(i,1);
 		//month
 		string token = line.substr(0,3);
-		if (is_number(token)) _month = YearMonths::selectMonth(atoi(token.c_str()));
+		if (is_number(token)) _month = selectMonth(atoi(token.c_str()));
 		else _month=token;
 		//day
 		token = line.substr(4,2);
@@ -70,7 +69,8 @@ Date::Date(string line)
 Date::Date (string day,string month,string year)
 {
 	_day = atoi(day.c_str());
-	if (is_number(month)) _month = YearMonths::selectMonth(atoi(month.c_str()));
+	if (is_number(month)) 
+		_month = selectMonth(atoi(month.c_str()));
 	else _month=month;
 	_year = atoi(year.c_str());
 }
@@ -93,10 +93,12 @@ int Date::get_year()
 bool Date::operator==(const Date& right)const
 {
 	string m = _month;
-	std::transform(m.begin(), m.end(), m.begin(), ::tolower);
+	for (int i = 0; i < m.size(); i++)
+    m[i] = std::tolower(m[i]);
 	string &wr = const_cast <string &> (right._month);
 	string r = wr;
-	std::transform(r.begin(), r.end(), r.begin(), ::tolower);
+	for (int i = 0; i < r.size(); i++)
+    r[i] = std::tolower(r[i]);
 	if (_day == right._day)
 	{
 		if (m.compare(r)==0)

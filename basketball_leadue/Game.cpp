@@ -37,8 +37,8 @@ Game::Game(string line)
 		for (int i=0 ; i < token.length(); i++)
 		{
 			string temp = token.substr(i,1);
-			regex integer("(\\+|-)?[[:digit:]]+");
-			if (token.length()>(i+4) && regex_match(temp,integer))
+			try{
+			if (token.length()>(i+4) && stoi(temp))
 			{
 				_guest=splited.substr(0,splited.length()-1);
 				locationInLine+=i;
@@ -46,6 +46,8 @@ Game::Game(string line)
 				splited.clear();
 				break;
 			}
+			}
+			catch (exception e){};
 			splited.append(temp);
 		}
 		int tempFound= token.find(':');

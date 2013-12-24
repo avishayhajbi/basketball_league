@@ -6,8 +6,12 @@
 #include <list>
 #include <iostream>
 #include <assert.h>
-#include <regex>
+//#include <regex>
 #include <exception>
+#include <cctype>
+#include <sstream>
+#include <stdio.h>
+
 
 using namespace std;
 
