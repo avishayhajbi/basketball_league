@@ -17,6 +17,8 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="League.h" />
     <ClInclude Include="LeagueMaker.h" />
+    <ClInclude Include="NBA_league.h" />
+    <ClInclude Include="Soccer_league.h" />
     <ClInclude Include="Team.h" />
   </ItemGroup>
   <ItemGroup>
@@ -24,8 +26,11 @@
     <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="League.cpp" />
     <ClCompile Include="LeagueMaker.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NBA_league.cpp" />
+    <ClCompile Include="Soccer_league.cpp" />
     <ClCompile Include="Team.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -22,7 +22,7 @@ private:
 public:
 	Game();
 	Game(string line);
-	Game(Date* date, string home, string guest, int round, int finalScoreHOME, int finalScoreGUEST, int halftimeHOME, int halftimeGUEST, int game);
+	Game(string home, string guest,Date* date, int round, int game, int finalScoreHOME, int finalScoreGUEST, int halftimeHOME, int halftimeGUEST);
 	string get_home();
 	string get_guest();
 	Date* get_date();	

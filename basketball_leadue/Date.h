@@ -1,18 +1,15 @@
 #ifndef DATE_H
 #define DATE_H
-
+#include <algorithm>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <list>
 #include <iostream>
 #include <assert.h>
 //#include <regex>
-#include <exception>
 #include <cctype>
-#include <sstream>
 #include <stdio.h>
-
-
 using namespace std;
 
 
@@ -22,7 +19,6 @@ private:
 	int _day;
 	string _month;
 	int _year;
-
 public:
 	Date();
 	Date (string day,string month,string year);

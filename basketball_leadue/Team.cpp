@@ -14,7 +14,7 @@ Team::Team()
 
 Team::Team(string name)
 {
-	_teameName = name;
+	_teameName = name.substr(0,name.length()); // -1 in linux
 	_gameCounter=0;
 	_leaguePoints=0;
 	_success=0;

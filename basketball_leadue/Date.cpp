@@ -1,33 +1,32 @@
 #include "Date.h"
 
 
-    enum Months { Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6, Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12 };
 
-    char* selectMonth(int month)
+    string selectMonth(int month)
     {
-        if (month == Months::Jan) // Enumerator must be qualified by enum type
+        if (month == 1) // Enumerator must be qualified by enum type
         { return "Jan";}
-		if (month == Months::Feb) // Enumerator must be qualified by enum type
+		if (month == 2) // Enumerator must be qualified by enum type
         { return "Feb";}
-		if (month == Months::Mar)
+		if (month == 3)
         { return "Mar";}
-		if (month == Months::Apr)
+		if (month == 4)
         { return "Apr";}
-		if (month == Months::May)
+		if (month == 5)
         { return "May";}
-		if (month == Months::Jun)
+		if (month == 6)
         { return "Jun";}
-		if (month == Months::Jul)
+		if (month == 7)
         { return "Jul";}
-		if (month == Months::Aug)
+		if (month == 8)
         { return "Aug";}
-		if (month == Months::Sep)
+		if (month == 9)
         { return "Sep";}
-		if (month == Months::Oct)
+		if (month == 10)
         { return "Oct";}
-		if (month == Months::Nov)
+		if (month == 11)
         { return "Nov";}
-		if (month == Months::Dec)
+		if (month == 12)
         { return "Dec";}
     }
 
@@ -47,7 +46,7 @@ bool is_number(const std::string& s)
 }
 Date::Date()
 {
-	
+
 }
 Date::Date(string line)
 {
@@ -56,7 +55,7 @@ for(int i=0; i<line.length(); i++)
      if(line[i] == ' ') line.erase(i,1);
 		//month
 		string token = line.substr(0,3);
-		if (is_number(token)) _month = selectMonth(atoi(token.c_str()));
+		if (atoi(token.c_str())>0) _month = selectMonth(atoi(token.c_str()));
 		else _month=token;
 		//day
 		token = line.substr(4,2);
@@ -64,12 +63,12 @@ for(int i=0; i<line.length(); i++)
 		//year
 		token = line.substr(7, 4);
 		_year = atoi(token.c_str());
-		
+
 }
 Date::Date (string day,string month,string year)
 {
 	_day = atoi(day.c_str());
-	if (is_number(month)) 
+	if (is_number(month))
 		_month = selectMonth(atoi(month.c_str()));
 	else _month=month;
 	_year = atoi(year.c_str());

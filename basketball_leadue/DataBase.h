@@ -17,8 +17,11 @@ private:
 	fstream _output;
 public:
 	DataBase();
+	DataBase(char* db);
 	fstream& get_file();
 	fstream& get_output();
+	void set_output(char* out);
 	void initDB ();
+
 };
 #endif

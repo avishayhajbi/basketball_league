@@ -1,7 +1,53 @@
-﻿  Date.cpp
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\date.cpp(55): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\date.cpp(96): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\date.cpp(100): warning C4018: '<' : signed/unsigned mismatch
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\date.cpp(47): warning C4715: 'is_number' : not all control paths return a value
-d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\date.cpp(32): warning C4715: 'selectMonth' : not all control paths return a value
+﻿  NBA_league.cpp
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(86): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(99): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(102): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(136): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(184): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(194): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(269): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(290): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(293): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(304): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(308): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(378): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(391): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(394): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(427): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(475): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(484): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(559): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(580): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(583): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(594): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(598): warning C4018: '>' : signed/unsigned mismatch
+  LeagueMaker.cpp
+  Basketball_league.cpp
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(109): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(122): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(125): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(159): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(207): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(217): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(292): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(313): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(316): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(327): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(331): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(402): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(415): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(418): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(451): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(499): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(508): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(583): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(604): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(607): warning C4018: '>' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(618): warning C4018: '<' : signed/unsigned mismatch
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(622): warning C4018: '>' : signed/unsigned mismatch
+  Generating Code...
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(663): warning C4717: 'Basketball_league::get_games' : recursive on all control paths, function will cause runtime stack overflow
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\basketball_league.cpp(658): warning C4717: 'Basketball_league::get_teams' : recursive on all control paths, function will cause runtime stack overflow
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(634): warning C4717: 'NBA_league::get_teams' : recursive on all control paths, function will cause runtime stack overflow
+d:\documents\documents\visual studio 2012\projects\basketball_leadue\basketball_leadue\nba_league.cpp(639): warning C4717: 'NBA_league::get_games' : recursive on all control paths, function will cause runtime stack overflow
   basketball_leadue.vcxproj -> D:\Documents\Documents\Visual Studio 2012\Projects\basketball_leadue\Debug\basketball_league.exe
